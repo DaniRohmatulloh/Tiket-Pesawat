@@ -84,7 +84,7 @@ $payment_methods = [
                                 </thead>
                                 <tbody>
                                     <!-- Economy Class -->
-                                    <tr>
+                                    <tr id="EconomyClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="economy" class="form-check-input" onchange="calculateTotal()">
                                         </td>
@@ -103,7 +103,7 @@ $payment_methods = [
                                     </tr>
 
                                     <!-- Business Class -->
-                                    <tr>
+                                    <tr id="BusinessClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="business" class="form-check-input" onchange="calculateTotal()">
                                         </td>
@@ -122,7 +122,7 @@ $payment_methods = [
                                     </tr>
 
                                     <!-- First Class -->
-                                    <tr>
+                                    <tr id="FirstClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="firstClass" class="form-check-input" onchange="calculateTotal()">
                                         </td>
@@ -332,6 +332,23 @@ $payment_methods = [
             // Update flight options dan tampilkan hasil
             updateFlightOptions();
             document.getElementById('flightResults').style.display = 'block';
+
+            // $.ajax({
+            //     url: '/searchFlights',
+            //     method: 'GET',
+            //     data: {
+            //         asal: asalInput.value,
+            //         tujuan: tujuanInput.value,
+            //     },
+            //     success: function(response) {
+            // console.log(response);
+            // var classFlight = response.class;
+            // $('#EconomyClass').hide();
+            // $('#BusinessClass').hide();
+            // $('#FirstClass').hide();
+            // $(`#${classFlight}Class`).show();
+            //     }
+            // })
         }
     }
 
@@ -350,6 +367,7 @@ $payment_methods = [
         }
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 <style>
     .input-group input[type="number"] {

@@ -30,7 +30,6 @@ function buatRp($angka)
                     <th scope="col" class="fs-5">No.</th>
                     <th scope="col" class="fs-5">Asal</th>
                     <th scope="col" class="fs-5">Tujuan</th>
-                    <th scope="col" class="fs-5">Class</th>
                     <th scope="col" class="fs-5">jumlah kursi</th>
                     <th scope="col" class="fs-5">Harga</th>
                     <th scope="col" class="fs-5">Aksi</th>
@@ -43,7 +42,6 @@ function buatRp($angka)
                         <th scope="row" class="fs-6"><?= $no; ?></th>
                         <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->asal); ?></td>
                         <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->nama_wisata); ?></td>
-                        <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->class); ?></td>
                         <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->jumlah_kursi); ?></td>
                         <td scope="col" class="fs-5" style="width: 50px;"><?= buatRp($data->harga); ?></td>
                         <td>

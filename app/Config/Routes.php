@@ -11,6 +11,7 @@ $routes->get('/login/register', 'Login::register');
 $routes->post('/login/save', 'Login::save');
 $routes->post('/login/proses', 'Login::proses');
 $routes->get('login/keluar', 'login::keluar');
+$routes->get("/searchFlights", 'Responser::searchFlight');
 
 $routes->get('wisata', 'Wisata::index');
 $routes->get('wisata/pesan/(:segment)', 'Wisata::pesan/$1');

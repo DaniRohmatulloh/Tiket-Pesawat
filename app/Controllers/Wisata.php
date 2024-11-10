@@ -33,6 +33,26 @@ class Wisata extends BaseController
         $class = $this->request->getPost('selected_flight');
         $penumpang = $this->request->getPost('passenger_quantity');
         $total = $this->calculateTotal($asal, $tujuan, $class, $penumpang);
+        $nama_pesawat = "";
+        switch ($class) {
+            case 'economy':
+                # code...
+                $nama_pesawat = "Lion Air";
+                break;
+            case "business":
+                # code...
+                $nama_pesawat = "Garuda Indonesia";
+                break;
+            case "firstClass":
+                # code...
+                $nama_pesawat = "Emirates";
+                break;
+
+            default:
+                # code...
+                $nama_pesawat = null;
+                break;
+        }
 
         // Retrieve the wisata data and handle the case where it might not exist
         $wisataData = $this->wisata->where('asal', $asal)
@@ -43,6 +63,7 @@ class Wisata extends BaseController
             return redirect()->back()->with('error', 'Data wisata tidak ditemukan.');
         }
 
+
         $data = [
             'asal' => $asal,
             'tujuan' => $tujuan,
@@ -52,7 +73,7 @@ class Wisata extends BaseController
             'harga' => $total,
             'total' => $total * $penumpang,
             'metode_pembayaran' => $this->request->getPost('metode_pembayaran'),
-            'nama_pesawat' => property_exists($wisataData, 'nama_pesawat') ? $wisataData->nama_pesawat : null,
+            'nama_pesawat' => $nama_pesawat,
         ];
 
         $this->pesanan->insert($data);
@@ -67,7 +88,6 @@ class Wisata extends BaseController
         if ($id === null) {
             session()->setFlashdata('error', 'ID Pesanan tidak ditemukan.');
             return redirect()->back();
-            
         }
 
         // Define payment instructions
