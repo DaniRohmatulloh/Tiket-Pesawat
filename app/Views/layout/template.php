@@ -61,25 +61,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <form class="container-fluid justify-content-start">
-                        <a class="btn btn-outline-light me-2" aria-current="page" href="<?= base_url(''); ?>">Home</a>
-                        <a class="btn btn-outline-light me-2" aria-current="page" href="<?= base_url('admin'); ?>">Halaman Admin</a>
-                        <a class="btn btn-outline-light me-2" href="<?= base_url('wisata'); ?>">Pemesanan Tiket</a>
-                        <?php if (session()->get('logged_in') != true) { ?>
-                            <a class="btn btn-outline-light me-2" href="<?= base_url('login'); ?>">Login</a>
-                        <?php } else { ?>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Hello, <?= session()->get('nama'); ?>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="<?= base_url('login/keluar'); ?>">Logout</a></li>
-                                </ul>
-                            </li>
-                        <?php } ?>
+                    <form class="conteinter-fluid">
+                        <div class="d-flex justify-content-between">
+                            <a class="btn btn-outline-light me-2" aria-current="page" href="<?= base_url(''); ?>">Home</a>
+                            <!-- <a class="btn btn-outline-light me-2" aria-current="page" href="<?= base_url('admin'); ?>">Halaman Admin</a> -->
+                            <a class="btn btn-outline-light me-2" href="<?= base_url('wisata'); ?>">Pemesanan Tiket</a>
+                            <?php if (session()->get('logged_in') != true) { ?>
+                                <a class="btn btn-outline-light me-2" href="<?= base_url('login'); ?>">Login</a>
+                            <?php } else { ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Hello, <?= session()->get('nama'); ?>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="<?= base_url("transaksi"); ?>">Transaksi</a></li>
+                                        <li><a class="dropdown-item" href="<?= base_url('login/keluar'); ?>">Logout</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
+                        </div>
                     </form>
                 </div>
             </div>

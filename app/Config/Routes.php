@@ -18,7 +18,7 @@ $routes->get('wisata/pesan/(:segment)', 'Wisata::pesan/$1');
 $routes->post('Wisata/proses', 'Wisata::proses');
 $routes->get('Wisata/konfirmasi/(:segment)', 'Wisata::konfirmasi/$1');
 $routes->get('/Wisata/detailTiket/(:num)', 'Wisata::detailTiket/$1');
-
+$routes->get('transaksi', "Transaksi::index");
 $routes->group('admin', function ($routes) {
     $routes->get('/', 'admin\Home::index');
     $routes->get('home', 'admin\Home::index');

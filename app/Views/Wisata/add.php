@@ -39,15 +39,6 @@
         <!-- Kelas dan Penumpang -->
         <div class="row mb-4">
             <div class="col">
-                <label for="class" class="form-label fw-semibold">Class</label>
-                <select name="class" id="class" class="form-select border rounded-pill px-4 py-2">
-                    <option value="Economy">Economy</option>
-                    <option value="Business">Business</option>
-                    <option value="First">First</option>
-                </select>
-                <small class="text-danger"><?= $validation->getError('class'); ?></small>
-            </div>
-            <div class="col">
                 <label for="jumlah_kursi" class="form-label fw-semibold">Jumlah kursi</label>
                 <input type="number" name="jumlah_kursi" id="jumlah_kursi" class="form-control border rounded-pill px-4 py-2" value="1" min="1">
                 <small class="text-danger"><?= $validation->getError('jumlah_kursi'); ?></small>

@@ -74,6 +74,8 @@ class Wisata extends BaseController
             'total' => $total * $penumpang,
             'metode_pembayaran' => $this->request->getPost('metode_pembayaran'),
             'nama_pesawat' => $nama_pesawat,
+            "user_id" => session()->get("id_user"),
+            "id_wisata" => $wisataData->id_wisata,
         ];
 
         $this->pesanan->insert($data);
