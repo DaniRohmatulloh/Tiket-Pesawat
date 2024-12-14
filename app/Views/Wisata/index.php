@@ -8,7 +8,17 @@ function buatRp($angka)
 }
 ?>
 <div class="container my-5">
-    <h1 class="text-center mb-5 text-primary fw-bold fs-2">Kelola Tiket Pesawat</h1> <!-- Increased font size -->
+    <h1 class="text-center mb-5 text-primary fw-bold fs-2">Kelola Tiket Pesawat</h1>
+
+    <!-- Form Pencarian -->
+    <form action="" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan Asal atau Tujuan..." value="<?= esc($search ?? '') ?>">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i> Cari
+            </button>
+        </div>
+    </form>
 
     <!-- Display Flash Messages -->
     <?php if (session()->getFlashdata('success')) : ?>
@@ -28,35 +38,75 @@ function buatRp($angka)
             <thead class="table-primary">
                 <tr>
                     <th scope="col" class="fs-5">No.</th>
+                    <th scope="col" class="fs-5">Foto</th>
                     <th scope="col" class="fs-5">Asal</th>
                     <th scope="col" class="fs-5">Tujuan</th>
-                    <th scope="col" class="fs-5">jumlah kursi</th>
+                    <th scope="col" class="fs-5">Jumlah Kursi</th>
                     <th scope="col" class="fs-5">Harga</th>
                     <th scope="col" class="fs-5">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $no = 1; ?>
-                <?php foreach ($wisata as $data): ?>
-                    <tr>
-                        <th scope="row" class="fs-6"><?= $no; ?></th>
-                        <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->asal); ?></td>
-                        <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->nama_wisata); ?></td>
-                        <td scope="col" class="fs-5" style="width: 50px;"><?= esc($data->jumlah_kursi); ?></td>
-                        <td scope="col" class="fs-5" style="width: 50px;"><?= buatRp($data->harga); ?></td>
-                        <td>
-                            <div class="d-flex justify-content-center gap-2">
-                                <a href="<?= base_url('admin/Wisata/edit/' . $data->id_wisata); ?>" class="btn btn-outline-primary btn-sm shadow-sm">
-                                    <i class="bi bi-pencil-fill"></i> Edit
-                                </a>
-                                <a href="<?= base_url('admin/Wisata/delete/' . $data->id_wisata); ?>" class="btn btn-outline-danger btn-sm shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                    <i class="bi bi-trash-fill"></i> Hapus
-                                </a>
+                <?php if (count($wisata) > 0): ?>
+                    <?php $no = 1; ?>
+                    <?php foreach ($wisata as $data): ?>
+                        <tr>
+                            <th scope="row" class="fs-6"><?= $no; ?></th>
+                            <td scope="col">
+                                <img src="<?= base_url('foto/' . $data->foto); ?>" alt="Foto Tiket" width="100" height="70" class="rounded">
+                            </td>
+                            <td scope="col" class="fs-5"><?= esc($data->asal); ?></td>
+                            <td scope="col" class="fs-5"><?= esc($data->nama_wisata); ?></td>
+                            <td scope="col" class="fs-5"><?= esc($data->jumlah_kursi); ?></td>
+                            <td scope="col" class="fs-5"><?= buatRp($data->harga); ?></td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="<?= base_url('admin/Wisata/edit/' . $data->id_wisata); ?>" class="btn btn-outline-primary btn-sm shadow-sm">
+                                        <i class="bi bi-pencil-fill"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $data->id_wisata; ?>">
+                                        <i class="bi bi-trash-fill"></i> Hapus
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php $no++; ?>
+
+                        <!-- Modal Delete Confirmation -->
+                        <div class="modal fade" id="deleteModal<?= $data->id_wisata; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger" id="deleteModalLabel"><i class="bi bi-trash-fill"></i> Konfirmasi Hapus</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex justify-content-center">
+                                            <i class="bi bi-exclamation-triangle-fill text-warning fs-1"></i>
+                                        </div>
+                                        <p class="mt-3 text-center">Apakah Anda yakin ingin menghapus tiket pesawat ini?</p>
+                                        <div class="alert alert-warning text-center">
+                                            <small>
+                                                <i class="bi bi-info-circle-fill me-1"></i>
+                                                Data yang sudah dihapus tidak dapat dikembalikan.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <a href="<?= base_url('admin/Wisata/delete/' . $data->id_wisata); ?>" class="btn btn-danger">
+                                            <i class="bi bi-trash-fill"></i> Ya, Hapus
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td>
                     </tr>
-                    <?php $no++; ?>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

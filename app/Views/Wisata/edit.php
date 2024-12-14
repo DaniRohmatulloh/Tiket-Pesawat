@@ -48,15 +48,6 @@
         <!-- Kelas and Penumpang Combined -->
         <div class="row mb-4">
             <div class="col">
-                <label for="class" class="form-label fw-semibold">Class</label>
-                <select name="class" id="kelas" class="form-select border rounded-pill px-4 py-2">
-                    <option value="Economy" <?= $cari->class == 'Economy' ? 'selected' : ''; ?>>Economy</option>
-                    <option value="Business" <?= $cari->class == 'Business' ? 'selected' : ''; ?>>Business</option>
-                    <option value="First" <?= $cari->class == 'First' ? 'selected' : ''; ?>>First</option>
-                </select>
-                <small class="text-danger"><?= $validation->getError('class'); ?></small>
-            </div>
-            <div class="col">
                 <label for="jumlah_kursi" class="form-label fw-semibold">Jumlah Kursi</label>
                 <input type="number" name="jumlah_kursi" id="jumlah_kursi" class="form-control border rounded-pill px-4 py-2" value="<?= esc($cari->jumlah_kursi); ?>" min="1">
                 <small class="text-danger"><?= $validation->getError('jumlah_kursi'); ?></small>

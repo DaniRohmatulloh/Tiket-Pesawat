@@ -8,7 +8,6 @@ function buatRp($angka)
 }
 ?>
 <div class="container py-5">
-    <!-- Notifikasi -->
     <?php if (session()->getFlashdata('success')) : ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>
@@ -68,8 +67,6 @@ function buatRp($angka)
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Instruksi Pembayaran -->
                 <div id="paymentInstructions" class="payment-instructions mt-4">
                     <h6>Instruksi Pembayaran:</h6>
                     <ol class="list-group list-group-numbered">
@@ -82,8 +79,6 @@ function buatRp($angka)
                         <?php endif; ?>
                     </ol>
                 </div>
-
-                <!-- Action Buttons -->
                 <div class="mt-4">
                     <button onclick="konfirmasiPemesanan()" class="btn btn-primary">
                         <i class="bi bi-check2-circle me-2"></i>Konfirmasi Pemesanan
@@ -95,8 +90,6 @@ function buatRp($angka)
         </div>
     </div>
 </div>
-
-<!-- Sweet Alert untuk konfirmasi -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -119,7 +112,7 @@ function buatRp($angka)
                     timer: 1500,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = '<?= base_url('/'); ?>'; // Redirect ke index.php
+                    window.location.href = '<?= base_url('/'); ?>';
                 });
             }
         });

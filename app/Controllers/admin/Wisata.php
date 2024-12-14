@@ -12,12 +12,23 @@ class Wisata extends BaseController
     public function __construct()
     {
         $this->wisata = new WisataModel();
+        helper('form');
     }
 
     public function index()
     {
         if (session()->get('logged_in') == true) {
-            $data['wisata'] = $this->wisata->findAll();
+            $search = $this->request->getGet('search');
+
+            if ($search) {
+                $data['wisata'] = $this->wisata->like('asal', $search)
+                    ->orLike('nama_wisata', $search)
+                    ->findAll();
+                $data['search'] = $search;
+            } else {
+                $data['wisata'] = $this->wisata->findAll();
+            }
+
             return view('Wisata/index', $data);
         } else {
             return redirect()->to('admin/login');
@@ -27,7 +38,9 @@ class Wisata extends BaseController
     public function add()
     {
         if (session()->get('logged_in') == true) {
-            return view('Wisata/add');
+            helper('form');
+            $validation = \Config\Services::validation(); 
+            return view('Wisata/add', ['validation' => $validation]); 
         } else {
             return redirect()->to('admin/login');
         }
@@ -56,12 +69,7 @@ class Wisata extends BaseController
                         'required' => 'Asal Tidak boleh kosong'
                     ]
                 ],
-                'class' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Kelas Tidak boleh kosong'
-                    ]
-                ],
+                
                 'jumlah_kursi' => [
                     'rules' => 'required|numeric',
                     'errors' => [
@@ -76,45 +84,37 @@ class Wisata extends BaseController
                     ]
                 ],
                 'harga' => [
-                    'rules' => 'required',
+                    'rules' => 'required|numeric',
                     'errors' => [
-                        'required' => 'Harga Tidak Boleh kosong'
+                        'required' => 'Harga Tidak Boleh kosong',
+                        'numeric' => 'Harga harus berupa angka'
                     ]
                 ]
             ];
 
             if (!$this->validate($rules)) {
-                $data['validation'] = $this->validator->getErrors();
+                $data['validation'] = $this->validator; 
+                $data['old_input'] = $this->request->getPost();
                 return view('Wisata/add', $data);
             }
-
-            $asal = $this->request->getVar('asal');
-            $nama_wisata = $this->request->getVar('nama_wisata');
-            $class = $this->request->getVar('class');
-            $jumlah_kursi = $this->request->getVar('jumlah_kursi');
-            $des = $this->request->getVar('des');
-            $harga = $this->request->getVar('harga');
             $foto = $this->request->getFile('foto');
-
-            if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-                $foto->move(WRITEPATH . '../public/foto');
-            } else {
-                return redirect()->back()->with('error', 'File foto tidak valid atau belum di-upload.');
-            }
+            $fotoName = $foto->getRandomName();
+            $foto->move(WRITEPATH . '../public/foto', $fotoName);
 
             $data = [
-                'asal' => $asal,
-                'nama_wisata' => $nama_wisata,
-                'class' => $class,
-                'jumlah_kursi' => $jumlah_kursi,
-                'deskripsi' => $des,
-                'harga' => $harga,
-                'foto' => $foto->getClientName()
+                'asal' => $this->request->getVar('asal'),
+                'nama_wisata' => $this->request->getVar('nama_wisata'),
+                'jumlah_kursi' => $this->request->getVar('jumlah_kursi'),
+                'deskripsi' => $this->request->getVar('des'),
+                'harga' => $this->request->getVar('harga'),
+                'foto' => $fotoName
             ];
 
-            $this->wisata->save($data);
-
-            return redirect()->to('admin/Wisata');
+            if ($this->wisata->save($data)) {
+                return redirect()->to('admin/Wisata')->with('success', 'Data berhasil ditambahkan.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal menambahkan data.');
+            }
         } else {
             return redirect()->to('admin/login');
         }
@@ -133,7 +133,7 @@ class Wisata extends BaseController
     public function update()
     {
         if (session()->get('logged_in') == true) {
-            $id = $this->request->getVar('kode');
+            $id = $this->request->getVar('kode'); // Ambil ID dari input
             $asal = $this->request->getVar('asal');
             $nama_wisata = $this->request->getVar('nama_wisata');
             $class = $this->request->getVar('class');
@@ -142,27 +142,26 @@ class Wisata extends BaseController
             $harga = $this->request->getVar('harga');
             $foto = $this->request->getFile('foto');
 
-            if ($foto->isValid() && !$foto->hasMoved()) {
-                $fotoName = $foto->getRandomName();
-                $foto->move(WRITEPATH . '../public/foto', $fotoName);
-            } else {
-                $fotoName = $this->wisata->find($id)->foto;
-            }
-
             $data = [
                 'id_wisata' => $id,
                 'asal' => $asal,
                 'nama_wisata' => $nama_wisata,
-                'class' => $class,
                 'jumlah_kursi' => $jumlah_kursi,
                 'deskripsi' => $des,
                 'harga' => $harga,
-                'foto' => $fotoName
             ];
-
-            $this->wisata->save($data);
-
-            return redirect()->to('admin/Wisata');
+            if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+                $fotoName = $foto->getRandomName();
+                $foto->move(WRITEPATH . '../public/foto', $fotoName);
+                $data['foto'] = $fotoName;
+            } else {
+                $data['foto'] = $this->wisata->find($id)->foto;
+            }
+            if ($this->wisata->save($data)) {
+                return redirect()->to('admin/Wisata')->with('success', 'Data berhasil diperbarui.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal memperbarui data.');
+            }
         } else {
             return redirect()->to('admin/login');
         }

@@ -4,54 +4,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Halaman Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* Minimal custom CSS for features not available in Bootstrap */
+    .sidebar {
+      width: 280px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content {
+      margin-left: 280px;
+    }
+
+    .nav-link {
+      transition: all 0.3s ease;
+      color: white !important;
+      /* Ensure text color is white */
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      color: #fff !important;
+      /* Ensure hover/focus text color is white */
+      background-color: rgba(255, 255, 255, 0.1);
+      /* Slight background change on hover */
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+      }
+
+      .content {
+        margin-left: 0;
+      }
+    }
+  </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Tiket Pesawat</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ms-auto">
-          <a class="btn btn-outline-light me-2" href="<?= base_url('admin'); ?>">Home</a>
-          <a class="btn btn-outline-light me-2" href="<?= base_url('admin/Wisata'); ?>">Daftar Tiket Pesawat</a>
-          <a class="btn btn-outline-light me-2" href="<?= base_url('admin/petugas'); ?>">Admin</a>
-          <a class="btn btn-outline-light" href="<?= base_url('admin/login/keluar'); ?>">Logout</a>
+<body class="bg-light">
+  <!-- Sidebar -->
+  <div class="sidebar bg-dark text-white shadow">
+    <!-- Logo Section -->
+    <div class="d-flex flex-column align-items-center border-bottom border-secondary py-4">
+      <h4 class="mb-3">Tiket Pesawat</h4>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="mt-3">
+      <div class="px-3">
+        <a href="<?= base_url('admin'); ?>" class="nav-link rounded-3 mb-2 d-flex align-items-center text-white-50 hover-overlay">
+          <i class="fas fa-home me-3"></i> Dashboard
+        </a>
+        <a href="<?= base_url('admin/Wisata'); ?>" class="nav-link rounded-3 mb-2 d-flex align-items-center text-white-50">
+          <i class="fas fa-plane me-3"></i> Daftar Tiket
+        </a>
+        <a href="<?= base_url('admin/petugas'); ?>" class="nav-link rounded-3 mb-2 d-flex align-items-center text-white-50">
+          <i class="fas fa-users me-3"></i> Admin
+        </a>
+        <a href="<?= base_url('admin/transaksi'); ?>" class="nav-link rounded-3 mb-2 d-flex align-items-center text-white-50">
+          <i class="fas fa-receipt me-3"></i> Transaksi
+        </a>
+        <a href="<?= base_url('admin/login/keluar'); ?>" class="nav-link rounded-3 mb-2 d-flex align-items-center text-white-50">
+          <i class="fas fa-sign-out-alt me-3"></i> Logout
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Main Content -->
+    <div class="container-fluid px-4">
+      <div class="row">
+        <div class="col-12">
+          <?= $this->renderSection('content'); ?>
         </div>
       </div>
     </div>
-  </nav>
 
-  <div class="container py-3">
-    <div class="row">
-      <div class="col-md-12 mb-5">
-        <?= $this->renderSection('content'); ?>
-      </div>
-      <!-- <div class="col-md-4">
-        <h5 class="mb-3">List Tiket Pesawat</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-          <li class="list-group-item">A fourth item</li>
-          <li class="list-group-item">And a fifth one</li>
-        </ul>
-      </div> -->
-    </div>
+    <!-- Footer -->
+    <footer>
+    </footer>
   </div>
 
-  <footer class="bg-dark text-white py-2">
-    <div class="container text-center">
-      <p class="mb-0">2024 &copy; Tiket Pesawat</p>
-    </div>
-  </footer>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <!-- Custom JavaScript for hover effects -->
+  <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('mouseenter', function() {
+        this.classList.add('bg-secondary', 'bg-opacity-25', 'text-white');
+      });
+      link.addEventListener('mouseleave', function() {
+        this.classList.remove('bg-secondary', 'bg-opacity-25', 'text-white');
+      });
+    });
+  </script>
 </body>
 
 </html>

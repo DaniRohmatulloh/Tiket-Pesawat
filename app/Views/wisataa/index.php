@@ -22,8 +22,6 @@ $payment_methods = [
                 <div class="card-body">
                     <form id="ticket-form" action="<?= base_url('Wisata/proses'); ?>" method="post">
                         <?= csrf_field(); ?>
-
-                        <!-- Lokasi dan Tanggal -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="asal" class="form-label">Asal</label>
@@ -63,15 +61,11 @@ $payment_methods = [
                                 <div class="invalid-feedback">Silakan pilih tanggal kepulangan.</div>
                             </div>
                         </div>
-
-                        <!-- Tombol Cari Penerbangan -->
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary w-100" onclick="searchFlights()">
                                 <i class="bi bi-airplane-engines me-2"></i>Cari Penerbangan
                             </button>
                         </div>
-
-                        <!-- Tabel Penerbangan dan Metode Pembayaran -->
                         <div id="flightResults" style="display: none;" class="mb-3">
                             <table class="table table-striped">
                                 <thead>
@@ -83,7 +77,6 @@ $payment_methods = [
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Economy Class -->
                                     <tr id="EconomyClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="economy" class="form-check-input" onchange="calculateTotal()">
@@ -101,8 +94,6 @@ $payment_methods = [
                                             <small class="text-muted">/orang</small>
                                         </td>
                                     </tr>
-
-                                    <!-- Business Class -->
                                     <tr id="BusinessClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="business" class="form-check-input" onchange="calculateTotal()">
@@ -120,8 +111,6 @@ $payment_methods = [
                                             <small class="text-muted">/orang</small>
                                         </td>
                                     </tr>
-
-                                    <!-- First Class -->
                                     <tr id="FirstClass">
                                         <td>
                                             <input type="radio" name="selected_flight" value="firstClass" class="form-check-input" onchange="calculateTotal()">
@@ -141,8 +130,6 @@ $payment_methods = [
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <!-- Pilih Metode Pembayaran -->
                             <div class="mb-3">
                                 <label for="paymentMethod" class="form-label">Pilih Metode Pembayaran</label>
                                 <select id="paymentMethod" name="metode_pembayaran" class="form-select" required>
@@ -155,8 +142,6 @@ $payment_methods = [
                                     Silakan pilih metode pembayaran.
                                 </div>
                             </div>
-
-                            <!-- Passenger Count -->
                             <div id="passengerSection" style="display: none;" class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -175,8 +160,6 @@ $payment_methods = [
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Total Price -->
                             <div id="totalPriceSection" style="display: none;" class="card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -198,10 +181,7 @@ $payment_methods = [
 </div>
 
 <script>
-    // Store flight prices for different routes
     const flightPrices = {};
-
-    // Initialize flight prices from PHP data
     function initializeFlightPrices() {
         const asalSelect = document.getElementById('asal');
         const tujuanSelect = document.getElementById('tujuan');
@@ -224,8 +204,6 @@ $payment_methods = [
             }
         });
     }
-
-    // Format currency in IDR
     function formatCurrency(amount) {
         return new Intl.NumberFormat('id-ID', {
             style: 'currency',
@@ -237,14 +215,8 @@ $payment_methods = [
     function adjustPassengers(change) {
         const input = document.getElementById('passenger_quantity');
         let value = parseInt(input.value) + change;
-
-        // Batasi nilai antara 1 dan 10
         value = Math.max(1, Math.min(10, value));
-
-        // Update nilai input
         input.value = value.toString();
-
-        // Hitung ulang total
         calculateTotal();
     }
 
@@ -278,8 +250,6 @@ $payment_methods = [
                 const price = prices[selectedFlight.value];
                 const total = price * passengerCount;
                 document.getElementById('total_harga').textContent = formatCurrency(total);
-
-                // Tampilkan bagian total harga dan penumpang
                 document.getElementById('totalPriceSection').style.display = 'block';
                 document.getElementById('passengerSection').style.display = 'block';
             }
@@ -292,7 +262,6 @@ $payment_methods = [
         const tanggalPergiInput = document.getElementById('tanggal_pergi');
         const tanggalPulangInput = document.getElementById('tgl_pulang');
 
-        // Validasi input
         let isValid = true;
 
         if (!asalInput.value) {
@@ -329,7 +298,6 @@ $payment_methods = [
         }
 
         if (isValid) {
-            // Update flight options dan tampilkan hasil
             updateFlightOptions();
             document.getElementById('flightResults').style.display = 'block';
 
@@ -351,14 +319,9 @@ $payment_methods = [
             // })
         }
     }
-
-    // Initialize when document is ready
     document.addEventListener('DOMContentLoaded', function() {
         initializeFlightPrices();
-        // Hide results section initially
         document.getElementById('flightResults').style.display = 'none';
-
-        // Add Bootstrap Icons CSS if not already included
         if (!document.querySelector('link[href*="bootstrap-icons"]')) {
             const link = document.createElement('link');
             link.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css';

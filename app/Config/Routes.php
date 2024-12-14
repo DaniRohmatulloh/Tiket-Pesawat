@@ -18,7 +18,10 @@ $routes->get('wisata/pesan/(:segment)', 'Wisata::pesan/$1');
 $routes->post('Wisata/proses', 'Wisata::proses');
 $routes->get('Wisata/konfirmasi/(:segment)', 'Wisata::konfirmasi/$1');
 $routes->get('/Wisata/detailTiket/(:num)', 'Wisata::detailTiket/$1');
-$routes->get('transaksi', "Transaksi::index");
+$routes->get('admin/transaksi', "Transaksi::index");
+$routes->get('admin/transaksi/batalkan/(:num)', 'Transaksi::batalkan/$1');
+$routes->get('admin/transaksi/konfirmasi/(:num)', 'Transaksi::konfirmasi/$1');
+$routes->get('riwayat', 'Riwayat::index');
 $routes->group('admin', function ($routes) {
     $routes->get('/', 'admin\Home::index');
     $routes->get('home', 'admin\Home::index');
@@ -26,9 +29,12 @@ $routes->group('admin', function ($routes) {
     $routes->get('Wisata/add', 'admin\Wisata::add');
     $routes->post('Wisata/save', 'admin\Wisata::save');
     $routes->get('Wisata/edit/(:segment)', 'admin\Wisata::edit/$1');
+    $routes->get('admin/transaksi', "Transaksi::index");
+    $routes->get('riwayat', 'Riwayat::index');
+    $routes->get('riwayat/konfirmasi/(:segment)', 'Riwayat::konfirmasi/$1');
     $routes->post('Wisata/update', 'admin\Wisata::update');
     $routes->get('Wisata/delete/(:segment)', 'admin\Wisata::delete/$1');
-
+                                          
     $routes->get('login', 'admin\login::index');
     $routes->post('login/cek', 'admin\Login::cek');
     $routes->get('login/keluar', 'admin\Login::keluar');

@@ -77,8 +77,8 @@
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="<?= base_url("transaksi"); ?>">Transaksi</a></li>
                                         <li><a class="dropdown-item" href="<?= base_url('login/keluar'); ?>">Logout</a></li>
+                                        <li><a class="dropdown-item" href="<?= base_url('riwayat'); ?>">Riwayat</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>
